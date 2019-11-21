@@ -1,18 +1,18 @@
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-directiva',
-  templateUrl: './directiva.component.html'
+    selector: 'app-directiva',
+    templateUrl: './directiva.component.html'
 })
 export class DirectivaComponent {
 
-  listaCurso = ['TypeScript', 'JavaScript', 'Java SE', 'C#', 'PHP'];
-  habilitar = true;
+    listaCurso = ['TypeScript', 'JavaScript', 'Java SE', 'C#', 'PHP'];
+    habilitar = true;
 
-  constructor() {
-  }
+    constructor() {
+    }
 
-  setHabilitar(): void {
-    this.habilitar = !this.habilitar;
-  }
+    setHabilitar(): void {
+        this.habilitar = !this.habilitar;
+    }
 }
