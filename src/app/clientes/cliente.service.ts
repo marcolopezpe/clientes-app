@@ -20,7 +20,7 @@ export class ClienteService {
         return this.http.get(this.urlEndPoint + '/page/' + page).pipe(
             tap((response: any) => {
                 (response.content as Cliente[]).forEach(cliente => {
-                    console.log(cliente.nombre);
+                    //console.log(cliente.nombre);
                 });
             }),
             map((response: any) => {
@@ -36,7 +36,7 @@ export class ClienteService {
             }),
             tap(response => {
                 (response.content as Cliente[]).forEach(cliente => {
-                    console.log(cliente.nombre);
+                    //console.log(cliente.nombre);
                 })
             })
         );
@@ -102,6 +102,32 @@ export class ClienteService {
 
     delete(id: number): Observable<any> {
         return this.http.delete<any>(`${this.urlEndPoint}/${id}`, {headers: this.httpHeaders}).pipe(
+            catchError(e => {
+                if (e.status == 400) {
+                    return throwError(e);
+                }
+
+                console.error(e.error.mensaje);
+
+                Swal.fire({
+                    title: e.error.mensaje,
+                    text: e.error.error,
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
+
+                return throwError(e);
+            })
+        );
+    }
+
+    subirFoto(archivo: File, id): Observable<Cliente> {
+        let formData = new FormData();
+        formData.append("archivo", archivo);
+        formData.append("id", id);
+
+        return this.http.post(`${this.urlEndPoint}/upload/`, formData).pipe(
+            map((response: any) => response.cliente as Cliente),
             catchError(e => {
                 if (e.status == 400) {
                     return throwError(e);
